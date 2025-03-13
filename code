@@ -5,6 +5,7 @@
 using namespace std;
 
 int main() {
+    setlocale(LC_ALL, "Russian");
     const int rows = 3;
     const int cols = 4;
     int array[rows][cols];
@@ -13,7 +14,7 @@ int main() {
 
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
-            array[i][j] = rand() % 1000;
+            array[i][j] = rand() % 10;
         }
     }
 
@@ -22,6 +23,56 @@ int main() {
             cout << array[i][j] << " ";
         }
         cout << endl;
+    }
+
+    for (int i = 0; i < rows; ++i) {
+        bool s = false;
+
+        for (int j = 0; j < cols; ++j) {
+            for (int k = j + 1; k < cols; ++k) {
+                if (array[i][j] == array[i][k]) {
+                    s = true;
+                    break;
+                }
+            }
+            if (s) {
+                break;
+            }
+        }
+
+        if (s) {
+            cout << "В строке " << i + 1 << " есть одинаковые элементы\n";
+        }
+        else {
+            cout << "В строке " << i + 1 << " нет одинаковых элементов\n";
+        }
+    }
+
+    int max = array[0][0];
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            if (array[i][j] > max) {
+                max = array[i][j];
+            }
+        }
+    }
+
+    bool found = false;
+    for (int i = 0; i < rows; ++i) {
+        int count = 0;
+        for (int j = 0; j < cols; ++j) {
+            if (array[i][j] == max) {
+                count++;
+            }
+        }
+        if (count >= 2) {
+            found = true;
+            cout << "В строке " << i + 1 << " есть как минимум два максимальных элемента (" << max << ").\n";
+        }
+    }
+
+    if (!found) {
+        cout << "Нет строк с двумя и более максимальными элементами (" << max << ").\n";
     }
 
     return 0;
